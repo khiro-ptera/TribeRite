@@ -1,0 +1,187 @@
+[gd_scene load_steps=10 format=3 uid="uid://cwek8qg7tqcer"]
+
+[ext_resource type="Script" path="res://Scripts/cardBase.gd" id="1_ctoyo"]
+[ext_resource type="Texture2D" uid="uid://b7cms0oyrkhvd" path="res://Assets/Cards/Templates/Monsters.png" id="2_bpcn0"]
+[ext_resource type="FontFile" uid="uid://chcxje7bdhwtb" path="res://Assets/Fonts/Minecraft.ttf" id="3_8rb2q"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_eukhd"]
+font = ExtResource("3_8rb2q")
+font_size = 32
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ew07t"]
+resource_local_to_scene = true
+font = ExtResource("3_8rb2q")
+font_size = 32
+font_color = Color(1, 0, 0.207843, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_4gb14"]
+font = ExtResource("3_8rb2q")
+font_size = 32
+font_color = Color(0, 0.563031, 0.0708179, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_oqpah"]
+font = ExtResource("3_8rb2q")
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_kpfh3"]
+font = ExtResource("3_8rb2q")
+
+[sub_resource type="LabelSettings" id="LabelSettings_un2fp"]
+font = ExtResource("3_8rb2q")
+font_color = Color(0.770579, 0.349402, 0, 1)
+
+[node name="CardBase" type="MarginContainer"]
+offset_right = 256.0
+offset_bottom = 480.0
+pivot_offset = Vector2(128, 240)
+script = ExtResource("1_ctoyo")
+
+[node name="Border" type="Sprite2D" parent="."]
+texture = ExtResource("2_bpcn0")
+centered = false
+
+[node name="Card" type="Sprite2D" parent="."]
+centered = false
+offset = Vector2(20, 74)
+
+[node name="Bars" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TopGap" type="MarginContainer" parent="Bars"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="NameBar" type="HBoxContainer" parent="Bars"]
+layout_mode = 2
+
+[node name="LeftGap" type="MarginContainer" parent="Bars/NameBar"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="Name" type="MarginContainer" parent="Bars/NameBar"]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Bars/NameBar/Name"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Bars/NameBar/Name/CenterContainer"]
+layout_mode = 2
+text = "Sample"
+label_settings = SubResource("LabelSettings_eukhd")
+horizontal_alignment = 1
+
+[node name="ImageGap" type="MarginContainer" parent="Bars"]
+custom_minimum_size = Vector2(0, 220)
+layout_mode = 2
+
+[node name="Stats" type="HBoxContainer" parent="Bars"]
+layout_mode = 2
+
+[node name="LeftGap" type="MarginContainer" parent="Bars/Stats"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="Stat1" type="MarginContainer" parent="Bars/Stats"]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Bars/Stats/Stat1"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Bars/Stats/Stat1/CenterContainer"]
+layout_mode = 2
+text = "A"
+label_settings = SubResource("LabelSettings_ew07t")
+horizontal_alignment = 1
+
+[node name="MidGap" type="MarginContainer" parent="Bars/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Stat2" type="MarginContainer" parent="Bars/Stats"]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Bars/Stats/Stat2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Bars/Stats/Stat2/CenterContainer"]
+layout_mode = 2
+text = "B"
+label_settings = SubResource("LabelSettings_4gb14")
+horizontal_alignment = 1
+
+[node name="RightGap" type="MarginContainer" parent="Bars/Stats"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="SmallGap" type="MarginContainer" parent="Bars"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="EffectBar" type="HBoxContainer" parent="Bars"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="LeftGap" type="MarginContainer" parent="Bars/EffectBar"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="Effect" type="MarginContainer" parent="Bars/EffectBar"]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Bars/EffectBar/Effect"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Bars/EffectBar/Effect/CenterContainer"]
+custom_minimum_size = Vector2(218, 0)
+layout_mode = 2
+text = "Sample Sample Sample Sample Sample Sample Sample Sample "
+label_settings = SubResource("LabelSettings_oqpah")
+autowrap_mode = 2
+
+[node name="RightGap" type="MarginContainer" parent="Bars/EffectBar"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="SmallGap2" type="MarginContainer" parent="Bars"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="BottomBar" type="HBoxContainer" parent="Bars"]
+layout_mode = 2
+
+[node name="LeftGap" type="MarginContainer" parent="Bars/BottomBar"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="Element" type="MarginContainer" parent="Bars/BottomBar"]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Bars/BottomBar/Element"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Bars/BottomBar/Element/CenterContainer"]
+layout_mode = 2
+text = "Sample"
+label_settings = SubResource("LabelSettings_kpfh3")
+horizontal_alignment = 1
+
+[node name="MidGap" type="MarginContainer" parent="Bars/BottomBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Sacrifice" type="MarginContainer" parent="Bars/BottomBar"]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Bars/BottomBar/Sacrifice"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Bars/BottomBar/Sacrifice/CenterContainer"]
+layout_mode = 2
+text = "C"
+label_settings = SubResource("LabelSettings_un2fp")
+horizontal_alignment = 1
+
+[node name="RightGap" type="MarginContainer" parent="Bars/BottomBar"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
