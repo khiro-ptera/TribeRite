@@ -1,8 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://cwek8qg7tqcer"]
+[gd_scene load_steps=12 format=3 uid="uid://cwek8qg7tqcer"]
 
 [ext_resource type="Script" path="res://Scripts/cardBase.gd" id="1_ctoyo"]
 [ext_resource type="Texture2D" uid="uid://b7cms0oyrkhvd" path="res://Assets/Cards/Templates/Monsters.png" id="2_bpcn0"]
 [ext_resource type="FontFile" uid="uid://chcxje7bdhwtb" path="res://Assets/Fonts/Minecraft.ttf" id="3_8rb2q"]
+[ext_resource type="Texture2D" uid="uid://cchj1kvqtcyca" path="res://Assets/Cardback1.png" id="4_hwxkg"]
+[ext_resource type="Texture2D" uid="uid://dy6r1jrsoixr8" path="res://Assets/Sheen1.png" id="4_moq3s"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_eukhd"]
 font = ExtResource("3_8rb2q")
@@ -185,3 +187,17 @@ horizontal_alignment = 1
 [node name="RightGap" type="MarginContainer" parent="Bars/BottomBar"]
 custom_minimum_size = Vector2(15, 0)
 layout_mode = 2
+
+[node name="Hover" type="TextureButton" parent="."]
+layout_mode = 2
+texture_hover = ExtResource("4_moq3s")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="CardBack" type="Sprite2D" parent="."]
+texture = ExtResource("4_hwxkg")
+centered = false
+
+[connection signal="button_up" from="Hover" to="." method="_on_hover_button_up"]
+[connection signal="mouse_entered" from="Hover" to="." method="_on_hover_mouse_entered"]
+[connection signal="mouse_exited" from="Hover" to="." method="_on_hover_mouse_exited"]

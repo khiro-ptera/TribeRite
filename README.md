@@ -1,2 +1,2 @@
 # TribeRite
- WIP Card Battler RPG
+ WIP Card Battler RPG to practice my Godot

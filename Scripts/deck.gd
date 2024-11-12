@@ -1,1 +1,12 @@
-static var decklist = ["Polarius", "Polarius", "Polarius", "Emberspright", "Fling", "Flowerbeds", "Enrage"]
+static var decklist = [
+	"Polarius", 
+	"Polarius", 
+	"Polarius", 
+	"Goopa", 
+	"Goopa", 
+	"Emberspright", 
+	"Fling", 
+	"Flowerbeds", 
+	"Enrage", 
+	"NoxatuRitual", 
+	"PotOfReeds"]
