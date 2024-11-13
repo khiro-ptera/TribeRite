@@ -1,8 +1,11 @@
-# TribeRite: A WIP Card Battler RPG to practice my Godot and also create something cool
-
+# TribeRite: A WIP Card Battler RPG to improve my Godot and create something cool in the meanwhile
 
 ## Mechanics:
-### There are 4 types of cards: Monsters, Spells, Counters, and Arenas
+
+### Card Types
+```
+There are 4 types of cards: Monsters, Spells, Counters, and Arenas
+```
 
 ### Monsters
 ```
@@ -54,8 +57,8 @@ A card sent to the DZone overrides previous cards sent to the DZone
 
 ### Effect Keywords
 ```
-Birthrite (Monster/Arena): Triggers when the Monster is played to the Stack
-Deathrite (Monster/Arena): Triggers when the Monster is sent from the Stack to the DZone
+Birthrite (Monster/Arena): Triggers when the card is played to the Stack
+Deathrite (Monster/Arena): Triggers when the card is sent from the Stack to the DZone
 Haunt (Any): An Aura effect that is in play when the card is in the DZone
 Start of Turn (Any): Triggers during the Start Phase
 End of Turn (Any): Triggers during the End Phase
