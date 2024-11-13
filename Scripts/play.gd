@@ -49,3 +49,7 @@ func draw():
 		deck.decklist.remove_at(selected)
 		decksize -= 1
 	return decksize
+
+func startPhase():
+	#once per turn effects
+	pass
