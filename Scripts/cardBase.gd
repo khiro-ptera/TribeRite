@@ -36,7 +36,6 @@ signal allyBuff
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print(cardImage)
 	$CardBack.visible = true
 	$Bars/BottomBar/SacIcon.visible = false
 	$Bars/Stats/ATKicon.visible = false
@@ -76,8 +75,10 @@ func _physics_process(delta: float) -> void:
 			position = activePos + Vector2(-stackPos * Global.cardSize.x, Global.cardSize.y * 0.5)
 			if Global.sacrifice[stackPos] == true:
 				destroy()
-			elif Global.stack[stackPos-1] == []:
-				print("shshsh")
+			elif Global.stack[stackPos-1] == []: # INVESTIGATE THIS!!!
+				print("shifting")
+				print(cardInfo[1])
+				# await get_tree().process_frame
 				shiftUpStack()
 		InDZone:
 			scale = Global.cardSize / size
@@ -129,7 +130,13 @@ func _physics_process(delta: float) -> void:
 		SacState:
 			if !Global.sacrificeState:
 				await get_tree().process_frame
-				playMonsterStack()
+				Global.stack[3] = cardInfo
+				removeFromHand()
+				stackPos = 3
+				startpos = position
+				targetpos = activePos + Vector2(-Global.stackSize * Global.cardSize.x, Global.cardSize.y * 0.5)
+				Global.stackSize += 1
+				state = Played
 
 func _on_hover_mouse_entered() -> void:
 	match state:
@@ -158,7 +165,7 @@ func _on_hover_button_up() -> void:
 			scale = ogScale
 			if Global.playerTurn && !Global.sacrificeState:
 				if cardInfo[0] == "Monsters" && Global.phase == 1:
-					if Global.stackSize == 0: # play active
+					if Global.stackSize == 0 && cardInfo[5] == 0: # play active
 						Global.stack[0] = cardInfo
 						removeFromHand()
 						stackPos = Global.stackSize
@@ -167,7 +174,6 @@ func _on_hover_button_up() -> void:
 						Global.stackSize += 1
 						state = Played
 					elif Global.stackSize <= 4:
-						print("hihi")
 						if cardInfo[5] == 0 && Global.stackSize <= 3:
 							playMonsterStack()
 						elif cardInfo[5] == 1:
@@ -175,7 +181,7 @@ func _on_hover_button_up() -> void:
 								Global.sacReq = 1
 								Global.sacrifice[0] = true
 								playMonsterStack()
-							else:
+							elif Global.stackSize > 1:
 								state = SacState
 								Global.sacrificeState = true
 						elif cardInfo[5] == 2 && Global.stackSize >= 2:
@@ -270,8 +276,8 @@ func monsterOnKill():
 	
 func spellEffects():
 	if cardInfo[1] == "Enrage": 
-		if Global.stack[0].size() != 0:
-			Global.stack[0][3] += 25
+		Global.buffInfo = [0, 3, 25]
+		allyBuff.emit()
 	elif cardInfo[1] == "Noxatu Ritual":
 		if Global.stack[0].size() != 0:
 			Global.sacrifice[Global.stackSize-1] = true
@@ -301,12 +307,14 @@ func destroy(): # destroy monster
 	state = InDZone
 	
 func shiftUpStack():
-	if stackPos == 0 || Global.stack[stackPos-1] != []:
-		pass
-	Global.stack[stackPos] = []
-	stackPos -= 1
-	Global.stack[stackPos] = cardInfo
-	if stackPos == 0:
-		state = InActive
-	print(Global.stack)
-	print(Global.stackSize)
+	if stackPos != 0 && Global.stack[stackPos-1] == []:
+		print(stackPos)
+		Global.stack[stackPos] = []
+		stackPos -= 1
+		print(cardInfo)
+		print(stackPos)
+		Global.stack[stackPos] = cardInfo
+		if stackPos == 0:
+			state = InActive
+		print(Global.stack)
+		print(Global.stackSize)

@@ -24,6 +24,10 @@ Global="*res://Scripts/global.gd"
 window/size/viewport_width=1600
 window/size/viewport_height=900
 
+[editor]
+
+movie_writer/movie_file="C:/Users/srx20/Documents/games/TribeRite/Replays/debug.avi"
+
 [input]
 
 leftclick={
