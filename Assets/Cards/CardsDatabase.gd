@@ -9,7 +9,7 @@ const DATA = {
 	Emberspright:
 		["Monsters", "Emberspright", "Fire", 100, 90, 0, true, "On Kill: Double ATK and HP."],
 	Goopa:
-		["Monsters", "Goopa", "Earth", 20, 120, 0, true, "Birthrite and Deathrite: All allied monsters gain 20 HP."],
+		["Monsters", "Goopa", "Earth", 20, 120, 0, true, "Birthrite and Deathrite: All other allied monsters gain 20 HP."],
 	Polarius:
 		["Monsters", "Polarius", "Electric", 40, 200, 0, true, "Gains 10 ATK for every other allied monster."],
 	Enrage:

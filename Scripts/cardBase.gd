@@ -29,6 +29,7 @@ var handPos = 0
 var stackPos = 0
 var atkAuraBoost = 0
 var hpAuraBoost = 0
+var fieldScale = ogScale
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -52,17 +53,23 @@ func _physics_process(delta: float) -> void:
 			var totalHP = cardInfo[4] + hpAuraBoost
 			var totalATK = cardInfo[3] + atkAuraBoost
 			monsterAura()
-			if cardInfo != Global.stack[0] || atkAuraBoost != 0 || hpAuraBoost != 0: # update card
-				cardInfo = Global.stack[0]
-				updateCard()
+			cardInfo = Global.stack[0]
+			updateCard()
+			if Global.sacrifice[0] == true:
+				destroy()
+				
 		InStack:
 			var totalHP = cardInfo[4] + hpAuraBoost
 			var totalATK = cardInfo[3] + atkAuraBoost
 			monsterAura()
-			if cardInfo != Global.stack[stackPos] || atkAuraBoost != 0 || hpAuraBoost != 0: # update card
-				cardInfo = Global.stack[stackPos]
-				updateCard()
+			cardInfo = Global.stack[stackPos]
+			updateCard()
+			if Global.sacrifice[stackPos] == true:
+				destroy()
+			elif Global.stack[stackPos-1] == []:
+				shiftUpStack()
 		InDZone:
+			position = Vector2($".".get_viewport().size) - size/1.25 - size*0.01
 			if Global.dZone != cardInfo[1]:
 				visible = false
 				state = BeneathDZone
@@ -78,7 +85,7 @@ func _physics_process(delta: float) -> void:
 				position = targetpos
 				scale.x = ogScalex
 				if targetpos == Vector2($".".get_viewport().size) - size/1.25 - size*0.01:
-					Global.dZone = cardInfo[1]
+					Global.dZone = cardInfo[1] # ALWAYS DO THIS BEFORE DISCARD
 					state = InDZone
 					print("discarded!")
 				else:
@@ -100,6 +107,7 @@ func _physics_process(delta: float) -> void:
 				position = startpos.lerp(targetpos, t)
 				t += delta/0.3
 			else:
+				fieldScale = scale
 				position = targetpos
 				monsterBirthrite()
 				if targetpos == activePos:
@@ -115,6 +123,8 @@ func _on_hover_mouse_entered() -> void:
 			startpos = position
 			targetpos = position - Vector2(0, 180)
 			state = FocusInHand
+		InActive, InStack:
+			scale = ogScale*1.4
 
 func _on_hover_mouse_exited() -> void:
 	match state:
@@ -123,6 +133,8 @@ func _on_hover_mouse_exited() -> void:
 			scale = ogScale
 			position = startpos
 			state = InHand
+		InActive, InStack:
+			scale = fieldScale
 
 func _on_hover_button_up() -> void:
 	match state:
@@ -200,28 +212,47 @@ func updateCard():
 	$Bars/Stats/Stat2/CenterContainer/Label.text = stat2
 	
 func monsterBirthrite():
-	pass
+	if cardInfo[1] == "Goopa":
+		for i in Global.stackSize-1:
+			Global.stack[i][4] += 20
 	
 func monsterAura():
 	if cardInfo[1] == "Polarius":
 		atkAuraBoost = (Global.stackSize - 1) * 10
 	
 func monsterDeathrite():
-	pass
+	if cardInfo[1] == "Goopa":
+		for i in Global.stackSize:
+			print("hihihihi")
+			Global.stack[i][4] += 20
 
 func monsterOnKill():
 	pass
 	
 func spellEffects():
 	if cardInfo[1] == "Enrage": 
-		var targetIndex = cardDatabase[Global.stack[0][1]]
-		var tempInfo = cardDatabase.DATA[targetIndex]
-		var tempCopy = tempInfo.duplicate()
-		tempCopy[3] += 25
-		Global.stack[0] = tempCopy
+		Global.stack[0][3] += 25
+	if cardInfo[1] == "Noxatu Ritual":
+		Global.sacrifice[Global.stackSize-1] = true
+		Global.draws += 2
 	
 func counterEffects():
 	pass
 	
 func arenaAura():
 	pass
+	
+func destroy(): # destroy monster
+	Global.sacrifice[stackPos] = false
+	Global.stack[stackPos] = []
+	Global.stackSize -= 1
+	monsterDeathrite()
+	Global.dZone = cardInfo[1] # ALWAYS DO THIS BEFORE DISCARD
+	state = InDZone
+	
+func shiftUpStack():
+	Global.stack[stackPos] = []
+	stackPos += 1
+	Global.stack[stackPos] = cardInfo
+	if stackPos == 0:
+		state = InActive
