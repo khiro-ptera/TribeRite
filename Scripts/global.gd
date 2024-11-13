@@ -14,4 +14,6 @@ var intel = 1 # default 1
 var playerTurn = true
 var arenas = [[], []]
 var sacrificeState = false
+var sacReq = 0
 var sacrifice = [false, false, false, false]
+var buffInfo = [0, 0, 0] # ally, stat, amount

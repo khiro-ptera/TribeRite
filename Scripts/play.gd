@@ -7,6 +7,7 @@ var selected = []
 @onready var starthand = Vector2($".".get_viewport().size) * Vector2(0.2, 1.0)
 @onready var handX = $".".get_viewport().size.x * 0.4
 
+
 enum{
 	InHand, 
 	InActive, 
@@ -19,12 +20,15 @@ enum{
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	$SacGradient.visible = false
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if Global.sacrificeState:
+		$SacGradient.visible = true
+	else:
+		$SacGradient.visible = false
 
 func draw():
 	var newCard = cardBase.instantiate()
@@ -32,6 +36,9 @@ func draw():
 	selected = randi() % decksize
 	newCard.cardName = deck.decklist[selected]
 	$Cards.add_child(newCard)
+	
+	newCard.allyBuff.connect(buffAlly)
+	
 	newCard.scale *= Global.cardSize/newCard.size
 	newCard.ogScalex = newCard.scale.x
 	newCard.startpos = Vector2(0, $".".get_viewport().size.y) + Vector2(0, -newCard.size.y/1.25)
@@ -49,6 +56,13 @@ func draw():
 		deck.decklist.remove_at(selected)
 		decksize -= 1
 	return decksize
+	
+func buffAlly(): # Global.buffInfo[0] == -1 means buff all
+	for _i in $"Cards".get_children():
+		if (_i.state == InStack || _i.state == InActive):
+			if Global.buffInfo[0] == -1 || _i.stackPos == Global.buffInfo[0]:
+				_i.cardInfo[Global.buffInfo[1]] += Global.buffInfo[2]
+			
 
 func startPhase():
 	#once per turn effects

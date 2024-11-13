@@ -1,12 +1,11 @@
 static var decklist = [
 	"Polarius", 
 	"Polarius", 
-	"Polarius", 
 	"Goopa", 
 	"Goopa", 
+	"Opturtle", 
+	"Opturtle", 
 	"Emberspright", 
-	"Fling", 
 	"Flowerbeds", 
 	"Enrage", 
-	"NoxatuRitual", 
-	"PotOfReeds"]
+	"NoxatuRitual"]

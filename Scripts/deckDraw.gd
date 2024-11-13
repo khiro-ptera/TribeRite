@@ -13,7 +13,7 @@ func _process(delta: float) -> void:
 
 func _gui_input(event: InputEvent) -> void:
 	if Input.is_action_just_released("leftclick"):
-		if decksize > 0 && Global.draws > 0:
+		if decksize > 0 && Global.draws > 0 && !Global.sacrificeState && Global.phase == 1 && Global.playerTurn:
 			decksize = $"../../".draw()
 			if decksize == 0:
 				disabled = true

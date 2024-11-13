@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://lge7cr6ksaee"]
+[gd_scene load_steps=18 format=3 uid="uid://lge7cr6ksaee"]
 
 [ext_resource type="Script" path="res://Scripts/play.gd" id="1_m1mtk"]
 [ext_resource type="Texture2D" uid="uid://bkrs4airtem2b" path="res://Assets/Background.png" id="1_mq27g"]
@@ -11,6 +11,8 @@
 [ext_resource type="Script" path="res://Scripts/dLabel.gd" id="9_s4dkt"]
 [ext_resource type="Script" path="res://Scripts/info.gd" id="10_sthq2"]
 [ext_resource type="Script" path="res://Scripts/phaseBox.gd" id="11_wnlex"]
+[ext_resource type="Texture2D" uid="uid://bpcumpbbhxlpq" path="res://Assets/SacrificeScreen.png" id="12_5fb6y"]
+[ext_resource type="FontFile" uid="uid://b14ba7pyqsnsu" path="res://Assets/Fonts/Dracutaz.ttf" id="13_a77ui"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_61hyn"]
 font = ExtResource("8_dooax")
@@ -30,6 +32,13 @@ font = ExtResource("8_dooax")
 font_size = 64
 font_color = Color(0.203922, 1, 1, 1)
 outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vxve1"]
+font = ExtResource("13_a77ui")
+font_size = 72
+font_color = Color(0.848053, 0, 0.220074, 1)
+outline_size = 8
 outline_color = Color(0, 0, 0, 1)
 
 [node name="Play" type="Node2D"]
@@ -164,3 +173,19 @@ layout_mode = 2
 text = "Sample"
 label_settings = SubResource("LabelSettings_fu4gg")
 horizontal_alignment = 1
+
+[node name="SacGradient" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource("12_5fb6y")
+
+[node name="Label" type="Label" parent="SacGradient"]
+custom_minimum_size = Vector2(1600, 900)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Select Sacrifice"
+label_settings = SubResource("LabelSettings_vxve1")
+horizontal_alignment = 1
+vertical_alignment = 1

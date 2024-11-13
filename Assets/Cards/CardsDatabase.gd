@@ -3,11 +3,13 @@
 # Counter Info: [Type, Name, Cost, Effect]
 # Arena Info: [Type, Name, Effect]
 
-enum {Emberspright, Polarius, Enrage, Fling, Flowerbeds, NoxatuRitual, PotOfReeds, Goopa}
+enum {Emberspright, Polarius, Enrage, Fling, Flowerbeds, NoxatuRitual, PotOfReeds, Goopa, Opturtle}
 
 const DATA = {
 	Emberspright:
-		["Monsters", "Emberspright", "Fire", 100, 90, 0, true, "On Kill: Double ATK and HP."],
+		["Monsters", "Emberspright", "Fire", 100, 80, 0, true, "On Kill: Double ATK and HP."],
+	Opturtle:
+		["Monsters", "Opturtle", "Water", 30, 240, 1, false, "Deathrite: Gain 1 Draw."],
 	Goopa:
 		["Monsters", "Goopa", "Earth", 20, 120, 0, true, "Birthrite and Deathrite: All other allied monsters gain 20 HP."],
 	Polarius:
@@ -15,7 +17,7 @@ const DATA = {
 	Enrage:
 		["Spells", "Enrage", "Your active monster gains 25 ATK."],
 	NoxatuRitual:
-		["Spells", "Noxatu Ritual", "Discard your last allied monster. \nGain 2 draw."],
+		["Spells", "Noxatu Ritual", "Discard your last allied monster. \nGain 2 Draw."],
 	Fling:
 		["Counters", "Fling", 3, "Swap your opponent's first and second monster."],
 	PotOfReeds:
