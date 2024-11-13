@@ -3,7 +3,7 @@
 # Counter Info: [Type, Name, Cost, Effect]
 # Arena Info: [Type, Name, Effect]
 
-enum {Emberspright, Polarius, Enrage, Fling, Flowerbeds, NoxatuRitual, PotOfReeds, Goopa, Opturtle}
+enum {Emberspright, Polarius, Enrage, Fling, Flowerbeds, NoxatuRitual, BleakfountainPact, PotOfReeds, Goopa, Opturtle}
 
 const DATA = {
 	Emberspright:
@@ -18,6 +18,8 @@ const DATA = {
 		["Spells", "Enrage", "Your active monster gains 25 ATK."],
 	NoxatuRitual:
 		["Spells", "Noxatu Ritual", "Discard your last allied monster. \nGain 2 Draw."],
+	BleakfountainPact:
+		["Spells", "Bleakfountain Pact", "Lose all your Draw. \nYour active monster gains 30 ATK and HP for each Draw lost."],
 	Fling:
 		["Counters", "Fling", 3, "Swap your opponent's first and second monster."],
 	PotOfReeds:

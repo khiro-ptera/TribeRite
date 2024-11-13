@@ -4,7 +4,7 @@ extends MarginContainer
 var cardName = "Flowerbeds"
 @onready var cardIndex = cardDatabase[cardName]
 @onready var cardInfo = cardDatabase.DATA[cardIndex].duplicate()
-@onready var cardImage = str("res://Assets/Cards/" + cardInfo[0] + "/" + cardInfo[1] + ".png")
+@onready var cardImage = str("res://Assets/Cards/" + cardInfo[0] + "/" + cardName + ".png")
 @onready var borderImage = str("res://Assets/Cards/templates/" + cardInfo[0] + ".png")
 @onready var ogScalex = scale.x
 @onready var ogScale = scale
@@ -36,6 +36,7 @@ signal allyBuff
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	print(cardImage)
 	$CardBack.visible = true
 	$Bars/BottomBar/SacIcon.visible = false
 	$Bars/Stats/ATKicon.visible = false
@@ -229,7 +230,9 @@ func updateCard():
 		effect = cardInfo[2]
 	else:
 		effect = cardInfo[2]
-		
+	
+	if fullname.length() > 16:
+		$Bars/NameBar/Name/CenterContainer/Label.label_settings.font_size = 16
 	$Bars/BottomBar/Element/CenterContainer/Label.text = element
 	$Bars/BottomBar/Sacrifice/CenterContainer/Label.text = sacrifice
 	$Bars/EffectBar/Effect/CenterContainer/Label.text = effect
@@ -273,6 +276,12 @@ func spellEffects():
 		if Global.stack[0].size() != 0:
 			Global.sacrifice[Global.stackSize-1] = true
 			Global.draws += 2
+	elif cardInfo[1] == "Bleakfountain Pact":
+		Global.buffInfo = [0, 3, 30 * Global.draws]
+		allyBuff.emit()
+		Global.buffInfo = [0, 4, 30 * Global.draws]
+		allyBuff.emit()
+		Global.draws = 0
 	
 func counterEffects():
 	pass

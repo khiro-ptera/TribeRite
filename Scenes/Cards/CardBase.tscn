@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dq5go17ep4v6q" path="res://Assets/Sac.png" id="6_atngg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_eukhd"]
+resource_local_to_scene = true
 font = ExtResource("3_8rb2q")
 font_size = 32
 font_color = Color(0, 0, 0, 1)
@@ -59,6 +60,7 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
 [node name="NameBar" type="HBoxContainer" parent="Bars"]
+custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 
 [node name="LeftGap" type="MarginContainer" parent="Bars/NameBar"]
@@ -67,6 +69,7 @@ layout_mode = 2
 
 [node name="Name" type="MarginContainer" parent="Bars/NameBar"]
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="CenterContainer" type="CenterContainer" parent="Bars/NameBar/Name"]
 layout_mode = 2
@@ -76,6 +79,10 @@ layout_mode = 2
 text = "Sample"
 label_settings = SubResource("LabelSettings_eukhd")
 horizontal_alignment = 1
+
+[node name="RightGap" type="MarginContainer" parent="Bars/NameBar"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
 
 [node name="ImageGap" type="MarginContainer" parent="Bars"]
 custom_minimum_size = Vector2(0, 210)

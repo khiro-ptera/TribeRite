@@ -6,6 +6,6 @@ static var decklist = [
 	"Opturtle", 
 	"Opturtle", 
 	"Emberspright", 
-	"Flowerbeds", 
+	"BleakfountainPact", 
 	"Enrage", 
 	"NoxatuRitual"]
