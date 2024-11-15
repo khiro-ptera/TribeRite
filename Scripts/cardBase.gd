@@ -9,6 +9,7 @@ var cardName = "Flowerbeds"
 @onready var ogScalex = scale.x
 @onready var ogScale = scale
 @onready var activePos = Vector2($".".get_viewport().size.x * 0.60, $".".get_viewport().size.y * 0.25)
+@onready var arenaPos = Vector2($".".get_viewport().size.x * 0.20, $".".get_viewport().size.y * 0.25)
 
 enum{
 	InHand, 
@@ -20,6 +21,8 @@ enum{
 	BeneathDZone,
 	Played,
 	SacState,
+	Arena,
+	SentDZone,
 }
 var state = InHand
 var startpos = 0
@@ -33,6 +36,7 @@ var hpAuraBoost = 0
 var fieldScale = ogScale
 
 signal allyBuff
+signal destroyArena
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -76,8 +80,6 @@ func _physics_process(delta: float) -> void:
 			if Global.sacrifice[stackPos] == true:
 				destroy()
 			elif Global.stack[stackPos-1] == []: # INVESTIGATE THIS!!!
-				print("shifting")
-				print(cardInfo[1])
 				# await get_tree().process_frame
 				shiftUpStack()
 		InDZone:
@@ -98,8 +100,9 @@ func _physics_process(delta: float) -> void:
 				position = targetpos
 				scale.x = ogScalex
 				if targetpos == Vector2($".".get_viewport().size) - size/1.25 - size*0.01:
-					Global.dZone = cardInfo[1] # ALWAYS DO THIS BEFORE DISCARD
-					state = InDZone
+					#Global.dZone = cardInfo[1] # ALWAYS DO THIS BEFORE DISCARD
+					#state = InDZone
+					moveD()
 				else:
 					state = InHand
 				t = 0
@@ -115,18 +118,30 @@ func _physics_process(delta: float) -> void:
 			pass
 		Played: # hand to board
 			if t <= 1:
+				Global.moving = true
 				scale *= 0.99
 				position = startpos.lerp(targetpos, t)
 				t += delta/0.3
 			else:
+				Global.moving = false
 				fieldScale = scale
 				position = targetpos
-				monsterBirthrite()
-				if targetpos == activePos:
-					state = InActive
-				else:
-					state = InStack
-				# t = 0
+				if cardInfo[0] == "Monsters":
+					monsterBirthrite()
+					if targetpos == activePos:
+						state = InActive
+					else:
+						state = InStack
+				elif cardInfo[0] == "Arenas":
+					# print("Arena played")
+					# destroyArena.emit()
+					# await get_tree().process_frame
+					arena("played")
+					# while Global.arena:
+						# await get_tree().process_frame
+					state = Arena
+					Global.arena = true
+					# t = 0
 		SacState:
 			if !Global.sacrificeState:
 				await get_tree().process_frame
@@ -137,6 +152,18 @@ func _physics_process(delta: float) -> void:
 				targetpos = activePos + Vector2(-Global.stackSize * Global.cardSize.x, Global.cardSize.y * 0.5)
 				Global.stackSize += 1
 				state = Played
+		Arena:
+			if Global.arena == false:
+				arena("destroyed")
+				moveD()
+		SentDZone:
+			if t <= 1:
+				position = startpos.lerp(targetpos, t)
+				t += delta/0.3
+			else:
+				position = targetpos
+				Global.dZone = cardInfo[1]
+				state = InDZone
 
 func _on_hover_mouse_entered() -> void:
 	match state:
@@ -159,6 +186,8 @@ func _on_hover_mouse_exited() -> void:
 			scale = fieldScale
 
 func _on_hover_button_up() -> void:
+	if Global.moving == true:
+		return
 	match state:
 		FocusInHand:
 			t = 0
@@ -178,25 +207,37 @@ func _on_hover_button_up() -> void:
 							playMonsterStack()
 						elif cardInfo[5] == 1:
 							if Global.stackSize == 1:
-								Global.sacReq = 1
 								Global.sacrifice[0] = true
 								playMonsterStack()
 							elif Global.stackSize > 1:
+								Global.sacReq = 1
 								state = SacState
 								Global.sacrificeState = true
-						elif cardInfo[5] == 2 && Global.stackSize >= 2:
-							pass
+						elif cardInfo[5] == 2:
+							if Global.stackSize == 2:
+								Global.sacrifice[0] = true
+								Global.sacrifice[1] = true
+								playMonsterStack()
+							elif Global.stackSize > 2:
+								Global.sacReq = 2
+								state = SacState
+								Global.sacrificeState = true
+							
 					else:
 						pass
 				elif cardInfo[0] == "Spells" && Global.phase == 1:
 					# spell effect
 					spellEffects()
-					Global.dZone = cardInfo[1]
 					removeFromHand()
-					state = InDZone
+					moveD()
 					position = Vector2($".".get_viewport().size) - size/1.25 - size*0.01
 				elif cardInfo[0] == "Arenas" && Global.phase == 1:
-					pass
+					if Global.arena:
+						Global.arena = false
+					removeFromHand()
+					startpos = position
+					targetpos = arenaPos # position of arena
+					state = Played
 				elif cardInfo[0] == "Counters" && Global.phase == 2:
 					pass
 		InActive, InStack:
@@ -219,8 +260,8 @@ func updateCard():
 	var fullname = cardInfo[1]
 	
 	if cardInfo[0] == "Monsters":
-		stat1 = str(cardInfo[3] + atkAuraBoost)
-		stat2 = str(cardInfo[4] + hpAuraBoost)
+		stat1 = str(cardInfo[3])
+		stat2 = str(cardInfo[4])
 		element = cardInfo[2]
 		sacrifice = str(cardInfo[5])
 		effect = cardInfo[7]
@@ -237,14 +278,22 @@ func updateCard():
 	else:
 		effect = cardInfo[2]
 	
-	if fullname.length() > 16:
+	if fullname.length() > 14:
 		$Bars/NameBar/Name/CenterContainer/Label.label_settings.font_size = 16
 	$Bars/BottomBar/Element/CenterContainer/Label.text = element
 	$Bars/BottomBar/Sacrifice/CenterContainer/Label.text = sacrifice
 	$Bars/EffectBar/Effect/CenterContainer/Label.text = effect
 	$Bars/NameBar/Name/CenterContainer/Label.text = fullname
-	$Bars/Stats/Stat1/CenterContainer/Label.text = stat1
-	$Bars/Stats/Stat2/CenterContainer/Label.text = stat2
+	if cardInfo[0] == "Monsters":
+		if state == InActive || state == InStack:
+			$Bars/Stats/Stat1/CenterContainer/Label.text = str(cardInfo[3] + atkAuraBoost + Global.auraBuff[0])
+			$Bars/Stats/Stat2/CenterContainer/Label.text = str(cardInfo[4] + hpAuraBoost + Global.auraBuff[1])
+		else:
+			$Bars/Stats/Stat1/CenterContainer/Label.text = str(cardInfo[3])
+			$Bars/Stats/Stat2/CenterContainer/Label.text = str(cardInfo[4])
+	else:
+		$Bars/Stats/Stat1/CenterContainer/Label.text = stat1
+		$Bars/Stats/Stat2/CenterContainer/Label.text = stat2
 	
 func playMonsterStack():
 	Global.stack[Global.stackSize] = cardInfo
@@ -259,6 +308,8 @@ func monsterBirthrite():
 	if cardInfo[1] == "Goopa":
 		Global.buffInfo = [-1, 4, 20]
 		allyBuff.emit()
+	elif cardInfo[1] == "Veilex":
+		Global.intel += Global.stackSize
 	
 func monsterAura():
 	if cardInfo[1] == "Polarius":
@@ -292,9 +343,18 @@ func spellEffects():
 func counterEffects():
 	pass
 	
-func arenaAura():
-	pass
-
+func arena(action: String):
+	if cardInfo[1] == "Flowerbeds":
+		if action == "played":
+			Global.auraBuff[1] += 30
+		elif action == "destroyed":
+			Global.auraBuff[1] -= 30
+	if cardInfo[1] == "Hellfire Canyon":
+		if action == "played":
+			Global.auraBuff[0] += 20
+		elif action == "destroyed":
+			Global.auraBuff[0] -= 20
+			
 func dZoneAura():
 	pass
 	
@@ -303,18 +363,21 @@ func destroy(): # destroy monster
 	Global.stack[stackPos] = []
 	Global.stackSize -= 1
 	monsterDeathrite()
-	Global.dZone = cardInfo[1] # ALWAYS DO THIS BEFORE DISCARD
-	state = InDZone
+	moveD()
+	#Global.dZone = cardInfo[1] # ALWAYS DO THIS BEFORE DISCARD
+	#state = InDZone
 	
 func shiftUpStack():
 	if stackPos != 0 && Global.stack[stackPos-1] == []:
-		print(stackPos)
 		Global.stack[stackPos] = []
 		stackPos -= 1
-		print(cardInfo)
-		print(stackPos)
 		Global.stack[stackPos] = cardInfo
 		if stackPos == 0:
 			state = InActive
-		print(Global.stack)
-		print(Global.stackSize)
+
+func moveD():
+	scale = Global.cardSize / size
+	t = 0
+	startpos = position
+	targetpos = Vector2($".".get_viewport().size) - size/1.25 - size*0.01
+	state = SentDZone

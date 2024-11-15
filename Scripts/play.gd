@@ -15,7 +15,9 @@ enum{
 	InDZone,
 	Drawn,
 	FocusInHand,
-	BeneathDZone
+	BeneathDZone,
+	Arena,
+	SentDZone
 }
 
 # Called when the node enters the scene tree for the first time.
@@ -38,6 +40,7 @@ func draw():
 	$Cards.add_child(newCard)
 	
 	newCard.allyBuff.connect(buffAlly)
+	newCard.destroyArena.connect(destroyA)
 	
 	newCard.scale *= Global.cardSize/newCard.size
 	newCard.ogScalex = newCard.scale.x
@@ -62,6 +65,19 @@ func buffAlly(): # Global.buffInfo[0] == -1 means buff all
 		if (_i.state == InStack || _i.state == InActive):
 			if Global.buffInfo[0] == -1 || _i.stackPos == Global.buffInfo[0]:
 				_i.cardInfo[Global.buffInfo[1]] += Global.buffInfo[2]
+				
+func destroyA(): 
+	if Global.arena:
+		print("DESTROY")
+		for _i in $"Cards".get_children():
+			print("getting...")
+			if (_i.state == Arena):
+				print("Destroying " + _i.cardInfo[1])
+				_i.t = 0
+				_i.startpos = _i.position
+				_i.targetpos = Vector2(_i.get_viewport().size) - _i.size/1.25 - _i.size*0.01
+				_i.state = SentDZone
+				break
 			
 
 func startPhase():
