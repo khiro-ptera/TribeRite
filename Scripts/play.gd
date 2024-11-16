@@ -6,6 +6,7 @@ var selected = []
 @onready var decksize = deck.decklist.size()
 @onready var starthand = Vector2($".".get_viewport().size) * Vector2(0.2, 1.0)
 @onready var handX = $".".get_viewport().size.x * 0.4
+@onready var elements = ["All", "Fire", "Water", "Earth", "Electric", "Steel", "Sky", "Magic"]
 
 
 enum{
@@ -40,7 +41,6 @@ func draw():
 	$Cards.add_child(newCard)
 	
 	newCard.allyBuff.connect(buffAlly)
-	newCard.destroyArena.connect(destroyA)
 	
 	newCard.scale *= Global.cardSize/newCard.size
 	newCard.ogScalex = newCard.scale.x
@@ -62,22 +62,9 @@ func draw():
 	
 func buffAlly(): # Global.buffInfo[0] == -1 means buff all
 	for _i in $"Cards".get_children():
-		if (_i.state == InStack || _i.state == InActive):
+		if (_i.state == InStack || _i.state == InActive) && (_i.cardInfo[2] == elements[Global.buffInfo[3]] || Global.buffInfo[3] == 0):
 			if Global.buffInfo[0] == -1 || _i.stackPos == Global.buffInfo[0]:
 				_i.cardInfo[Global.buffInfo[1]] += Global.buffInfo[2]
-				
-func destroyA(): 
-	if Global.arena:
-		print("DESTROY")
-		for _i in $"Cards".get_children():
-			print("getting...")
-			if (_i.state == Arena):
-				print("Destroying " + _i.cardInfo[1])
-				_i.t = 0
-				_i.startpos = _i.position
-				_i.targetpos = Vector2(_i.get_viewport().size) - _i.size/1.25 - _i.size*0.01
-				_i.state = SentDZone
-				break
 			
 
 func startPhase():

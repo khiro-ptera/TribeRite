@@ -9,13 +9,19 @@ enum {
 	Goopa, 
 	Opturtle,
 	Veilex,
+	Graspweed,
+	BrightmaneMartyr,
+	
 	Enrage, 
 	NoxatuRitual, 
 	BleakfountainPact, 
+	
 	PotOfReeds, 
 	Fling, 
+	
 	Flowerbeds, 
 	HellfireCanyon,
+	School,
 	}
 
 const DATA = {
@@ -29,6 +35,10 @@ const DATA = {
 		["Monsters", "Goopa", "Earth", 20, 120, 0, true, "Birthrite and Deathrite: All other allied monsters gain 20 HP."],
 	Polarius:
 		["Monsters", "Polarius", "Electric", 40, 200, 0, true, "Gains 10 ATK for every other allied monster."],
+	Graspweed:
+		["Monsters", "Graspweed", "Earth", 40, 90, 0, true, "Haunt: Your opponent's active monster loses 25 ATK."],
+	BrightmaneMartyr:
+		["Monsters", "Brightmane Martyr", "Steel", 70, 180, 1, false, "Deathrite: Gain 1 Intel. Haunt: Your allied Steel monsters gain 40 ATK."],
 	Enrage:
 		["Spells", "Enrage", "Your active monster gains 25 ATK."],
 	NoxatuRitual:
@@ -43,4 +53,6 @@ const DATA = {
 		["Arenas", "Flowerbeds", "Your allied monsters gain 30 HP."],
 	HellfireCanyon:
 		["Arenas", "Hellfire Canyon", "Your allied monsters gain 20 ATK."],
+	School:
+		["Arenas", "School", "Deathrite: Gain 1 Intel and 1 Draw."],
 }

@@ -16,7 +16,8 @@ var arenas = [[], []]
 var sacrificeState = false
 var sacReq = 0
 var sacrifice = [false, false, false, false]
-var buffInfo = [0, 0, 0] # ally, stat, amount
-var auraBuff = [0, 0] # atk, hp
+var buffInfo = [0, 0, 0, 0] # ally, stat, amount, type 
+# for type, 0: all, 1: fire, 2: water, 3: earth, 4: electric, 5: steel, 6: sky, 7: magic
+var auraBuff = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]] # atk, hp
 var moving = false # if a card is moving, can't play other cards
 var arena = false # true if there is an allied arena
