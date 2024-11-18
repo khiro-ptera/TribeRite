@@ -24,7 +24,10 @@ enum{
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$SacGradient.visible = false
-
+	Global.playerTurn = true
+	Global.phase = 0
+	$PhaseButton/Label.size = $PhaseButton.size
+	$PhaseButton/Label.text = "Next Phase"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -59,6 +62,34 @@ func draw():
 		deck.decklist.remove_at(selected)
 		decksize -= 1
 	return decksize
+	
+func nextPhase():
+	Global.phase += 1
+	if Global.playerTurn:
+		if Global.phase == 0:
+			# TODO: process start of turn effects
+			pass
+		elif Global.phase == 2:
+			$PhaseButton/Label.text = "Opponent Countering"
+			$PhaseButton.disabled = true
+		elif Global.phase == 3:
+			$PhaseButton/Label.text = "Next Phase"
+			$PhaseButton.disabled = false
+			# TODO: process fight
+		elif Global.phase == 4:
+			# TODO: process end of turn effects
+			$PhaseButton/Label.text = "End Turn"
+		elif Global.phase == 5:
+			$PhaseButton/Label.text = "Opponent's turn"
+			Global.phase = 0
+			Global.playerTurn = false
+	if !Global.playerTurn && Global.phase == 5:
+		$PhaseButton/Label.text = "Next Phase"
+		Global.phase = 0
+		Global.playerTurn = true
+	return Global.playerTurn
+		
+		
 	
 func buffAlly(): # Global.buffInfo[0] == -1 means buff all
 	for _i in $"Cards".get_children():

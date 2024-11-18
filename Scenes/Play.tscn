@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://lge7cr6ksaee"]
+[gd_scene load_steps=24 format=3 uid="uid://lge7cr6ksaee"]
 
 [ext_resource type="Script" path="res://Scripts/play.gd" id="1_m1mtk"]
 [ext_resource type="Texture2D" uid="uid://bkrs4airtem2b" path="res://Assets/Background.png" id="1_mq27g"]
@@ -9,9 +9,14 @@
 [ext_resource type="Script" path="res://Scripts/dZone.gd" id="7_2co0q"]
 [ext_resource type="FontFile" uid="uid://chcxje7bdhwtb" path="res://Assets/Fonts/Minecraft.ttf" id="8_dooax"]
 [ext_resource type="Script" path="res://Scripts/dLabel.gd" id="9_s4dkt"]
+[ext_resource type="Texture2D" uid="uid://cqs2rhk11ihjl" path="res://Assets/Button1.png" id="10_cacdm"]
 [ext_resource type="Script" path="res://Scripts/info.gd" id="10_sthq2"]
+[ext_resource type="Texture2D" uid="uid://dbc2xqes06tcm" path="res://Assets/Button1p.png" id="11_qv4sd"]
 [ext_resource type="Script" path="res://Scripts/phaseBox.gd" id="11_wnlex"]
 [ext_resource type="Texture2D" uid="uid://bpcumpbbhxlpq" path="res://Assets/SacrificeScreen.png" id="12_5fb6y"]
+[ext_resource type="Texture2D" uid="uid://iybaifrfnaxy" path="res://Assets/Button1h.png" id="12_yqcwa"]
+[ext_resource type="Texture2D" uid="uid://h0i3d8pmd8jb" path="res://Assets/Button1d.png" id="13_4ti4f"]
+[ext_resource type="Script" path="res://Scripts/phase.gd" id="13_5vibc"]
 [ext_resource type="FontFile" uid="uid://b14ba7pyqsnsu" path="res://Assets/Fonts/Dracutaz.ttf" id="13_a77ui"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_61hyn"]
@@ -20,6 +25,12 @@ font_size = 48
 font_color = Color(0.826045, 0, 0.304104, 1)
 outline_size = 16
 outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_uilok"]
+font = ExtResource("8_dooax")
+font_color = Color(0.795476, 0.825138, 0.947732, 1)
+outline_size = 4
+outline_color = Color(0.0857528, 0.157825, 0.382079, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_58iu6"]
 font = ExtResource("8_dooax")
@@ -94,7 +105,26 @@ label_settings = SubResource("LabelSettings_61hyn")
 horizontal_alignment = 1
 script = ExtResource("9_s4dkt")
 
-[node name="CardZones" type="Node2D" parent="."]
+[node name="PhaseButton" type="TextureButton" parent="."]
+offset_left = 64.0
+offset_top = 144.0
+offset_right = 304.0
+offset_bottom = 312.0
+texture_normal = ExtResource("10_cacdm")
+texture_pressed = ExtResource("11_qv4sd")
+texture_hover = ExtResource("12_yqcwa")
+texture_disabled = ExtResource("13_4ti4f")
+script = ExtResource("13_5vibc")
+
+[node name="Label" type="Label" parent="PhaseButton"]
+layout_mode = 0
+offset_right = 240.0
+offset_bottom = 168.0
+text = "SAMPLE"
+label_settings = SubResource("LabelSettings_uilok")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="InfoBox" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(200, 200)
@@ -159,8 +189,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(15, 0)
 layout_mode = 2
 
-[node name="Cards" type="Node" parent="."]
-
 [node name="PhaseBox" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(400, 200)
 offset_right = 400.0
@@ -173,6 +201,10 @@ layout_mode = 2
 text = "Sample"
 label_settings = SubResource("LabelSettings_fu4gg")
 horizontal_alignment = 1
+
+[node name="CardZones" type="Node2D" parent="."]
+
+[node name="Cards" type="Node" parent="."]
 
 [node name="SacGradient" type="TextureRect" parent="."]
 offset_right = 40.0
