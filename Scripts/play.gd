@@ -26,11 +26,19 @@ func _ready() -> void:
 	$SacGradient.visible = false
 	Global.playerTurn = true
 	Global.phase = 0
+	Global.turn = 0
+	Global.draws = 5
+	Global.intel = 2
+	Global.oppDraws = 4
+	Global.oppIntel = 1
 	$PhaseButton/Label.size = $PhaseButton.size
+	$Turn.size = $PhaseButton.size
+	$Turn.position.x += 60
 	$PhaseButton/Label.text = "Next Phase"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	$Turn.text = "Turn " + str(Global.turn)
 	if Global.sacrificeState:
 		$SacGradient.visible = true
 	else:
@@ -67,14 +75,23 @@ func nextPhase():
 	Global.phase += 1
 	if Global.playerTurn:
 		if Global.phase == 0:
+			Global.draws += 1
+			Global.intel += 1
 			# TODO: process start of turn effects
 			pass
 		elif Global.phase == 2:
 			$PhaseButton/Label.text = "Opponent Countering"
 			$PhaseButton.disabled = true
+			if Global.turn == 0:
+				await get_tree().create_timer(5.0).timeout
+				nextPhase()
+				return true
+			else:
+				# TODO: handle opponent counter
+				return false
 		elif Global.phase == 3:
-			$PhaseButton/Label.text = "Next Phase"
 			$PhaseButton.disabled = false
+			$PhaseButton/Label.text = "Next Phase"
 			# TODO: process fight
 		elif Global.phase == 4:
 			# TODO: process end of turn effects
@@ -83,10 +100,12 @@ func nextPhase():
 			$PhaseButton/Label.text = "Opponent's turn"
 			Global.phase = 0
 			Global.playerTurn = false
+			Global.turn += 1
 	if !Global.playerTurn && Global.phase == 5:
 		$PhaseButton/Label.text = "Next Phase"
 		Global.phase = 0
 		Global.playerTurn = true
+		Global.turn += 1
 	return Global.playerTurn
 		
 		

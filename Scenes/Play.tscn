@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://lge7cr6ksaee"]
+[gd_scene load_steps=25 format=3 uid="uid://lge7cr6ksaee"]
 
 [ext_resource type="Script" path="res://Scripts/play.gd" id="1_m1mtk"]
 [ext_resource type="Texture2D" uid="uid://bkrs4airtem2b" path="res://Assets/Background.png" id="1_mq27g"]
@@ -31,6 +31,12 @@ font = ExtResource("8_dooax")
 font_color = Color(0.795476, 0.825138, 0.947732, 1)
 outline_size = 4
 outline_color = Color(0.0857528, 0.157825, 0.382079, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_jlh35"]
+font = ExtResource("8_dooax")
+font_size = 48
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_58iu6"]
 font = ExtResource("8_dooax")
@@ -125,6 +131,14 @@ label_settings = SubResource("LabelSettings_uilok")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
+
+[node name="Turn" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "SAMPLE"
+label_settings = SubResource("LabelSettings_jlh35")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="InfoBox" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(200, 200)

@@ -12,9 +12,10 @@ func _process(delta: float) -> void:
 
 
 func _gui_input(event: InputEvent) -> void:
-	if Input.is_action_just_released("leftclick"):
+	if Input.is_action_just_released("leftclick") && disabled == false:
 		if !Global.sacrificeState && Global.playerTurn:
-			if !$"../".nextPhase():
+			var temp = await $"../".nextPhase() # returns global.playerturn
+			if !temp:
 				disabled = true
 			else: 
 				disabled = false

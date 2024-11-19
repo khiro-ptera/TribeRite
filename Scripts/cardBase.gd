@@ -34,6 +34,7 @@ var handPos = 0
 var stackPos = 0
 var auraBuff = [0, 0]
 var fieldScale = ogScale
+var player = true
 
 signal allyBuff
 

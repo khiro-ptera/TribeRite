@@ -1,5 +1,6 @@
 extends Node
 
+# for card game
 @onready var cardDatabase = preload("res://Assets/Cards/CardsDatabase.gd")
 var cardSize = Vector2(256, 480) * 0.6
 var stackSize = 0
@@ -21,3 +22,7 @@ var buffInfo = [0, 0, 0, 0] # ally, stat, amount, type
 var auraBuff = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]] # atk, hp
 var moving = false # if a card is moving, can't play other cards
 var arena = false # true if there is an allied arena
+var turn = 0
+
+var oppDraws = 4
+var oppIntel = 1
